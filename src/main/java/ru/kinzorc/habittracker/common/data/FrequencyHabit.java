@@ -1,4 +1,4 @@
-package ru.kinzorc.habittracker.common.util;
+package ru.kinzorc.habittracker.common.data;
 
 public enum FrequencyHabit {
     DAY,

@@ -1,6 +1,11 @@
 package ru.kinzorc.habittracker.common.util;
 
-import java.util.InputMismatchException;
+import ru.kinzorc.habittracker.common.data.DataOfUser;
+import ru.kinzorc.habittracker.common.data.FrequencyHabit;
+import ru.kinzorc.habittracker.common.data.HabitStatus;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 
@@ -11,14 +16,14 @@ public class InputUtils {
     }
 
     // Проверка имени
-    private static boolean isValidUsername(String name) {
+    static boolean isValidUsername(String name) {
         // Имя должно содержать от 3 до 20 символов и начинаться с буквы
         String usernameRegex = "^[a-zA-Zа-яА-Я0-9][a-zA-Zа-яА-Я0-9-]{2,19}$";
         return name != null && name.matches(usernameRegex);
     }
 
     // Проверка адреса почты
-    private static boolean isValidEmail(String email) {
+    static boolean isValidEmail(String email) {
         String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
         return email != null && email.matches(emailRegex);
     }
@@ -30,7 +35,7 @@ public class InputUtils {
     // - хотя бы одну строчную букву
     // - хотя бы одну заглавную букву
     // - хотя бы один специальный символ
-    private static boolean isValidPassword(String password) {
+    static boolean isValidPassword(String password) {
         String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$";
         return password != null && password.matches(passwordRegex);
     }
@@ -69,30 +74,26 @@ public class InputUtils {
 
     // Метод для проверки пользователем пунктов меню, проверяеся, что вводится число, а не любое другое значение
     public static int promptMenuValidInput() {
-        StringBuilder value = new StringBuilder();
+        int option;
 
         while (true) {
-            try {
-                System.out.print("Введите число: ");
-                value.append(scanner.nextInt());
-                scanner.nextLine(); // Сброс буфера после ввода числа
-                break;
-            } catch (InputMismatchException e) {
-                System.out.println("Некорректный ввод. Пожалуйста, введите целое число.");
-                scanner.nextLine(); // Очистка некорректного ввода из буфера
+            System.out.print("Введите пункт меню: ");
+            if (scanner.hasNextInt()) {
+                option = scanner.nextInt();
+                scanner.nextLine();
+                return option;
+            } else {
+                System.out.println("Ошибка! Введите целое число.");
+                scanner.nextLine();
             }
         }
-
-        int option = Integer.parseInt(value.toString());
-        value.setLength(0);
-
-        return option;
     }
 
     public static String promptFrequencyValid(String message, String errorMessage) {
         while (true) {
             System.out.print(message);
             String data = scanner.nextLine();
+            data = data.toLowerCase();
             switch (data) {
                 case "day" -> {
                     if ("day".equalsIgnoreCase(FrequencyHabit.DAY.toString()))
@@ -102,8 +103,62 @@ public class InputUtils {
                     if ("week".equalsIgnoreCase(FrequencyHabit.WEEK.toString()))
                         return "WEEK";
                 }
+                case "0" -> {
+                    return "0";
+                }
+                default -> {
+                    System.out.println(errorMessage);
+                    return null;
+                }
             }
-            System.out.println(errorMessage);
         }
+    }
+
+    public static String promptStatusValid(String message, String errorMessage) {
+        while (true) {
+            System.out.print(message);
+            String data = scanner.nextLine();
+            data = data.toUpperCase();
+            switch (data) {
+                case "ACTIVE" -> {
+                    if ("ACTIVE".equalsIgnoreCase(HabitStatus.ACTIVE.toString()))
+                        return data;
+                }
+                case "FINISHED" -> {
+                    if ("week".equalsIgnoreCase(HabitStatus.FINISHED.toString()))
+                        return data;
+                }
+                case "0" -> {
+                    return "0";
+                }
+                default -> {
+                    System.out.println(errorMessage);
+                    return null;
+                }
+            }
+        }
+    }
+
+    public static LocalDate promptDateValid(String message, String errorMessage) {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate date;
+
+        while (true) {
+            System.out.print(message);
+            String data = scanner.nextLine();
+
+            if (data.equalsIgnoreCase("0"))
+                return null;
+
+            // Парсим строку в дату
+            try {
+                date = LocalDate.parse(data, dateFormatter);
+                break;
+            } catch (Exception e) {
+                System.out.println(errorMessage);
+            }
+        }
+
+        return date;
     }
 }

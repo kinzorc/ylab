@@ -1,8 +1,5 @@
 package ru.kinzorc.habittracker.core.model;
 
-import ru.kinzorc.habittracker.habit.model.Habit;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -10,10 +7,10 @@ public class User {
     private String name;
     private String password;
     private String email;
-    private boolean isAdmin;
+    private final boolean isAdmin;
     private boolean isLogin;
     private boolean isBlocked;
-    private HashMap<Habit, ArrayList<String>> habits;
+    private final HashMap<String, Habit> habits;
 
     public User(String name, String email, String password, boolean isAdmin, boolean isLogin, boolean isBlocked) {
         this.name = name;
@@ -57,7 +54,19 @@ public class User {
         isLogin = login;
     }
 
-    public HashMap<Habit, ArrayList<String>> getHabits() {
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public boolean isBlocked() {
+        return isBlocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        isBlocked = blocked;
+    }
+
+    public HashMap<String, Habit> getHabits() {
         return this.habits;
     }
 

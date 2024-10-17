@@ -1,6 +1,6 @@
-package ru.kinzorc.habittracker.common.util;
+package ru.kinzorc.habittracker.common.email;
 
-import ru.kinzorc.habittracker.core.service.ConfigAppManager;
+import ru.kinzorc.habittracker.common.config.AppConfig;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -8,20 +8,19 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 public class EmailSender {
-    private static final Properties PROPERTIES = ConfigAppManager.getMailProperties();
-    private static final String paramIsValid = PROPERTIES.getProperty("param.valid");
+    private static final Properties MAIL_PROPERTIES = AppConfig.getMailProperties();
 
     // Метод для отправки почты
     public static void sendEmail(String recipient, String subject, String content) throws Exception {
-        final String username = PROPERTIES.getProperty("email.username");
-        final String password = PROPERTIES.getProperty("email.password");
+        final String username = MAIL_PROPERTIES.getProperty("email.username");
+        final String password = MAIL_PROPERTIES.getProperty("email.password");
 
         // Проверяем наличие критических параметров
         if (username == null || password == null) {
             throw new IllegalArgumentException("Отсутствуют параметры для email аутентификации.");
         }
 
-        Session session = Session.getInstance(PROPERTIES, new Authenticator() {
+        Session session = Session.getInstance(MAIL_PROPERTIES, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(username, password);
@@ -44,6 +43,6 @@ public class EmailSender {
     }
 
     public static boolean paramIsValid() {
-        return paramIsValid.equalsIgnoreCase("true");
+        return MAIL_PROPERTIES.getProperty("param.valid").equalsIgnoreCase("true");
     }
 }

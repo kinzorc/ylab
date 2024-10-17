@@ -29,6 +29,11 @@ ru.kinzorc.habittracker
 ├── common
 │   ├── config
 │   │   └── AppConfig.java        # Конфигурационный класс для настроек
+│   ├── data
+│   │   └── DataOfHabit.java        # Перечень полей и параметров для модели Habit
+│   │   └── DataOfUser.java        # Перечень полей и параметров для модели User
+│   │   └── FrequencyHabit.java        # Перечень полей и параметров для модели Habit
+│   │   └── HabitStatus.java        # Перечень полей и параметров для модели Habit
 │   ├── email
 │   │   └── EmailSender.java      # Класс для отправки email
 │   └── util
@@ -42,13 +47,19 @@ ru.kinzorc.habittracker
 │   ├── service
 │   │   └── UserService.java      # Бизнес-логика для работы с пользователями
 │   └── handler
-│       └── UserHandler.java      # Обработка данных пользователя
-│
-├── habit
-│   ├── model
-│   │   └── Habit.java            # Модель привычки
-│   └── handler
 │       └── HabitHandler.java     # Обработка данных привычки
+│       └── UserHandler.java      # Обработка данных пользователя
+├── navigation
+│   └── AccountMenu.java            # Меню аккаунта
+│   └── AdminMenu.java            # Меню администратора
+│   └── AuthMenu.java            # Меню авторизации
+│   └── HabitMenu.java            # Меню профиля привычки
+│   └── HabitMetricsMenu.java            # Меню статистки по привычке
+│   └── MainMenu.java            # Главное меню
+│   └── Menu.java            # Интерфейс меню
+│   └── MenuNavigator.java            # Класс для вызова методов остальных классов меню
+│   └── UserProfileMenu.java            # Меню профиля пользователя
+│ 
 ```
 
 ## Установка и запуск
