@@ -1,0 +1,158 @@
+databaseChangeLog:
+  - changeSet:
+      id: prepopulate-user-role
+      author: kinzorc
+      changes:
+        - insert:
+            tableName: user_roles
+            schemaName: app_schema
+            columns:
+              - column:
+                  name: role
+                  value: "admin"
+        - insert:
+            tableName: user_roles
+            schemaName: app_schema
+            columns:
+              - column:
+                  name: role
+                  value: "user"
+  - changeSet:
+      id: prepopulate-user-status
+      author: kinzorc
+      changes:
+        - insert:
+            tableName: user_status
+            schemaName: app_schema
+            columns:
+              - column:
+                  name: status
+                  value: "active"
+        - insert:
+            tableName: user_status
+            schemaName: app_schema
+            columns:
+              - column:
+                  name: status
+                  value: "blocked"
+  - changeSet:
+      id: prepopulate-users
+      author: kinzorc
+      changes:
+        - insert:
+            tableName: users
+            schemaName: app_schema
+            columns:
+              - column:
+                  name: username
+                  value: "admin"
+              - column:
+                  name: password
+                  value: "admin"
+              - column:
+                  name: email
+                  value: "admin@admin.com"
+              - column:
+                  name: role
+                  value: "admin"
+              - column:
+                  name: status
+                  value: "active"
+        - insert:
+            tableName: users
+            schemaName: app_schema
+            columns:
+              - column:
+                  name: username
+                  value: "test"
+              - column:
+                  name: password
+                  value: "test"
+              - column:
+                  name: email
+                  value: "test@test.com"
+              - column:
+                  name: role
+                  value: "user"
+              - column:
+                  name: status
+                  value: "active"
+
+  - changeSet:
+      id: prepopulate-habits
+      author: kinzorc
+      changes:
+        - insert:
+            tableName: habits
+            schemaName: app_schema
+            columns:
+              - column:
+                  name: user_id
+                  value: "2"
+              - column:
+                  name: habit_name
+                  value: "run"
+              - column:
+                  name: description
+                  value: "test description"
+              - column:
+                  name: frequency
+                  value: "daily"
+              - column:
+                  name: created_date
+                  value: "2024-10-10 00:00:00"
+              - column:
+                  name: start_date
+                  value: "2024-10-11 00:00:00"
+              - column:
+                  name: end_date
+                  value: "2024-11-10 00:00:00"
+              - column:
+                  name: execution_period
+                  value: "month"
+              - column:
+                  name: status
+                  value: "active"
+              - column:
+                  name: streak
+                  value: "0"
+              - column:
+                  name: execution_percentage
+                  value: "0"
+        - insert:
+            tableName: habits
+            schemaName: app_schema
+            columns:
+              - column:
+                  name: user_id
+                  value: "2"
+              - column:
+                  name: habit_name
+                  value: "ride a bicycle"
+              - column:
+                  name: description
+                  value: "test1 description"
+              - column:
+                  name: frequency
+                  value: "weekly"
+              - column:
+                  name: created_date
+                  value: "2024-10-11 00:00:00"
+              - column:
+                  name: start_date
+                  value: "2024-10-14 00:00:00"
+              - column:
+                  name: end_date
+                  value: "2025-11-13 00:00:00"
+              - column:
+                  name: execution_period
+                  value: "year"
+              - column:
+                  name: status
+                  value: "active"
+              - column:
+                  name: streak
+                  value: "0"
+              - column:
+                  name: execution_percentage
+                  value: "0"

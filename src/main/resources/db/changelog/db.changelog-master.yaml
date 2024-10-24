@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - include:
+      file: src/main/resources/db/changelog/changeset/01-create-users-table.yaml
+  - include:
+      file: src/main/resources/db/changelog/changeset/02-create-habits-table.yaml
+  - include:
+      file: src/main/resources/db/changelog/changeset/03-create-session-table.yaml
+  - include:
+      file: src/main/resources/db/changelog/changeset/04-prepopulate-data.yaml

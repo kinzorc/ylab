@@ -1,0 +1,23 @@
+services:
+  postgres_db:
+    container_name: postgres_db
+    image: postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: habittracker
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/sql/init-schemas.sql:/docker-entrypoint-initdb.d/init-schemas.sql
+    networks:
+      - app_network
+
+volumes:
+  postgres_data: { }
+
+networks:
+  app_network:
+    driver: bridge

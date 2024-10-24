@@ -1,0 +1,93 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-user-roles
+      author: kinzorc
+      changes:
+        - createTable:
+            tableName: user_roles
+            schemaName: app_schema
+            columns:
+              - column:
+                  name: role
+                  type: varchar(25)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+  - changeSet:
+      id: create-user-status
+      author: kinzorc
+      changes:
+        - createTable:
+            tableName: user_status
+            schemaName: app_schema
+            columns:
+              - column:
+                  name: status
+                  type: varchar(25)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+  - changeSet:
+      id: create-users
+      author: kinzorc
+      changes:
+        - createTable:
+            tableName: users
+            schemaName: app_schema
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(64)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role
+                  type: varchar(25)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(25)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: add-foreign-keys-to-users
+      author: kinzorc
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: users
+            baseColumnNames: role
+            constraintName: fk_users_role_role_user_roles
+            referencedTableName: user_roles
+            referencedColumnNames: role
+            baseTableSchemaName: app_schema
+            referencedTableSchemaName: app_schema
+
+        - addForeignKeyConstraint:
+            baseTableName: users
+            baseColumnNames: status
+            constraintName: fk_users_status_status_user_status
+            referencedTableName: user_status
+            referencedColumnNames: status
+            baseTableSchemaName: app_schema
+            referencedTableSchemaName: app_schema

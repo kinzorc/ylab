@@ -1,0 +1,128 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-habits
+      author: kinzorc
+      changes:
+        - createTable:
+            tableName: habits
+            schemaName: app_schema
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: habit_name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(300)
+              - column:
+                  name: frequency
+                  type: varchar(30)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: start_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: end_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: execution_period
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(25)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: streak
+                  type: smallint
+                  constraints:
+                    nullable: false
+                    checkConstraint: "streak >= 0"
+              - column:
+                  name: execution_percentage
+                  type: smallint
+                  constraints:
+                    nullable: false
+                    checkConstraint: "execution_percentage >= 0"
+  - changeSet:
+      - id: add-foreign-key-habits
+      - author: kinzorc
+      - addForeignKeyConstraint:
+          baseTableName: habits
+          baseColumnNames: user_id
+          baseTableSchemaName: app_schema
+          constraintName: fk_habits_user_id_id_users
+          referencedTableName: users
+          referencedColumnNames: id
+          referencedTableSchemaName: app_schema
+
+  - changeSet:
+      id: create-habit-executions
+      author: kinzorc
+      changes:
+        - createTable:
+            tableName: habit_executions
+            schemaName: app_schema
+            columns:
+              - column:
+                  name: habit_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: add-foreign-key-habit-executions
+      author: kinzorc
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: habit_executions
+            baseColumnNames: habit_id
+            constraintName: fk_habit_executions_habit_id_id_habits
+            referencedTableName: habits
+            referencedColumnNames: id
+            baseTableSchemaName: app_schema
+            referencedTableSchemaName: app_schema
+
+        - addForeignKeyConstraint:
+            baseTableName: habit_executions
+            baseColumnNames: user_id
+            constraintName: fk_habit_executions_user_id_id_users
+            referencedTableName: users
+            referencedColumnNames: id
+            baseTableSchemaName: app_schema
+            referencedTableSchemaName: app_schema
